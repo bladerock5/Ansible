@@ -1,0 +1,8 @@
+---
+  - name: test
+    hosts: rds_servers
+    tasks:
+      - name: Удаление файла или директории
+        ansible.windows.win_file:
+          path: C:\TMP
+          state: absent

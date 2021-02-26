@@ -1,0 +1,17 @@
+---
+  - name: Пользовательские настройки google chrom
+    hosts: rds_servers
+    tasks:
+      - name: корпоративные закладки
+        ansible.windows.win_regedit:
+          path: HKLM:\SOFTWARE\Policies\Google\Chrome
+          name: ManagedBookmarks
+          data: '[{"name":"Portal","url":"https://my.softline.com/ru"}, {"name":"Mirapolis","url":"https://webinars.softline.com"}, {"name":"CRM","url":"http://crmlist.softline.com/"}, {"name":"SmartZone","url":"https://smartzone.softline.com/mkc-portal/"}, {"name":"1C Time Sheet","url":"https://1c.softline.com/SCHEDULEWH"}, {"name":"1C All Bases","url":"https://start.softline.com/1c.index.html"}, {"name":"Manager`s workspace","url":"https://1c-regions.softline.com/Grading/"}, {"name":"Helpdesk","url":"https://helpdesk.softline.com/"}, {"name":"CAP(BI)","url":"https://portal.softline.com/softlinetrade/BISupport/SitePages/Home.aspx"}, {"name":"Corporate Apps","url":"https://apps.softline.com/"}, {"name":"Share documents","url":"https://nxcloud.softline.com/"}, {"name":"All services","url":"https://portalservices.softline.com/SitePages/Home.aspx#!/"},  {"name":"Outlook Web App","url":"https://mail.softline.com/owa/"}]'
+          type: string
+
+      - name: добавление где брать настройки для пользовательского гугл хрома
+        ansible.windows.win_regedit:
+          path: HKLM:\SOFTWARE\Policies\Google\Chrome
+          name: UserDataDir
+          data: '\\msk02appsfs01\UserDocuments$\${user_name}\Application Data'
+          type: string

@@ -1,0 +1,11 @@
+---
+  - name: Mesage Windows users
+    hosts: rds_servers
+    tasks:
+      - name: Warn logged in users of impending upgrade
+        win_toast:
+          expire: 60
+          title: 'System Upgrade Notification'
+          msg: Automated upgrade about to start    
+        async: 60
+        poll: 0

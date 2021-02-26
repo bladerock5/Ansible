@@ -1,0 +1,15 @@
+---
+  - name: test
+    hosts: rds_servers
+    tasks:
+      - name: Создаем директорию
+        ansible.windows.win_file:
+          path: C:\TMP
+          state: directory
+      - name: Копируем файл
+        ansible.windows.win_copy:
+          #src: C:\temp
+          #dest: C:\TMP
+          #remote_src: yes
+          src: playbook.yml
+          dest: c:\TMP

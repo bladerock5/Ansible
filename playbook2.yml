@@ -1,0 +1,9 @@
+---
+  - hosts: rds_servers
+    tasks:
+      - ansible.windows.win_copy:
+          #src: C:\temp
+          #dest: C:\TMP
+          #remote_src: yes
+          src: playbook.yml
+          dest: c:\TMP
