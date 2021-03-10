@@ -2,7 +2,7 @@
 #SetGpeditLocal
   - hosts: rds_servers
     tasks:
-      - name: корпоративные закладки
+      - name: 1C RemoteFX
         ansible.windows.win_regedit:
           path: HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services
           name: fEnableRemoteFXAdvancedRemoteApp
