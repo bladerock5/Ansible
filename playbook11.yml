@@ -1,0 +1,35 @@
+---
+#RestartServerEveryDay
+  - hosts: rds_servers
+    tasks:
+      - community.windows.win_scheduled_task:
+         name: FixBlackBox
+         description: Delete black box as run 1C
+         actions:
+         - path: C:\Windows\system32\wscript.exe
+           arguments: \\MSK02APPSFS01\scripts$\Fix\run-fixblackbox.js
+         triggers:
+         - type: event
+           subscription: <QueryList>
+             <Query Id="0" Path="Security">
+             <Select Path="Security">*[System[Provider[@Name='Microsoft-Windows-Security-Auditing'] and (Level=4 or Level=0) and Task = 13312 and (band(Keywords,9007199254740992)) and (EventID=4688)]]
+             and *[EventData[Data[@Name='NewProcessName'] and (Data='C:\Program Files (x86)\1cv8\8.3.16.1502\bin\1cv8.exe')]] and *[EventData[Data[@Name='ParentProcessName'] and ((Data='C:\Program Files (x86)\1cv8\8.3.16.1502\bin\1cv8s.exe') or (Data='C:\Program Files (x86)\1cv8\8.3.16.1502\bin\1cv8c.exe'))]]
+             </Select>
+             </Query>
+             </QueryList>
+           execution_time_limit: PT30M
+           start_boundary: '2021-01-01T01:00:00'
+         - type: event
+           subscription: <QueryList>
+             <Query Id="0" Path="Security">
+             <Select Path="Security">*[System[Provider[@Name='Microsoft-Windows-Security-Auditing'] and (Level=4 or Level=0) and Task = 13312 and (band(Keywords,9007199254740992)) and (EventID=4688)]]
+             and *[EventData[Data[@Name='NewProcessName'] and (Data='C:\Program Files (x86)\1cv8\8.3.16.1502\bin\1cv8c.exe')]] and *[EventData[Data[@Name='ParentProcessName'] and (Data='C:\Program Files (x86)\1cv8\8.3.16.1502\bin\1cv8s.exe')]]
+             </Select>
+             </Query>
+             </QueryList>
+           execution_time_limit: PT30M
+           start_boundary: '2021-01-01T01:00:00'
+         username: SYSTEM
+         run_level: highest
+         state: present
+         stop_if_going_on_batteries: no
